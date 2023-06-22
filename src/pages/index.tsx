@@ -6,7 +6,6 @@ import { useState } from "react";
 
 export default function Home() {
 
-  //const {data} = api.videoCards.getAll.useQuery()
 
     const [cooler, setCooler] = useState(null)
     const [cpu, setCpu] = useState(null)
