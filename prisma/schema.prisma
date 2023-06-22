@@ -16,6 +16,9 @@ model videoCard {
     
     itemName String @db.VarChar(255)
     memory Int @db.TinyInt()
+    chipset String @db.VarChar(255)
+
+    link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
 }
@@ -25,6 +28,10 @@ model cpu {
     
     itemName String @db.VarChar(255)
     coreCount Int @db.TinyInt()
+    coreClock Decimal? @db.Decimal(3,1)
+    socket String? @db.VarChar(255)
+
+    link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
 }
@@ -33,6 +40,9 @@ model cpuCooler {
     id  String   @id @default(cuid())
     
     itemName String @db.VarChar(255)
+    size String? @db.VarChar(255)
+
+    link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
 }
@@ -41,10 +51,12 @@ model motherBoard {
     id  String   @id @default(cuid())
 
     itemName String @db.VarChar(255)
-    socket String @db.VarChar(255)
-    formFactor String @db.VarChar(255)
-    memorySlots Int @db.TinyInt()
-    memoryMax Int @db.SmallInt()
+    socket String? @db.VarChar(255)
+    formFactor String? @db.VarChar(255)
+    memorySlots Int? @db.TinyInt()
+    memoryMax Int? @db.SmallInt()
+
+    link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
 }
@@ -53,9 +65,10 @@ model memory {
     id  String   @id @default(cuid())
 
     itemName String @db.VarChar(255)
-    speed String @db.VarChar(255)
-    modules String @db.VarChar(255)
-    pricePerGB Decimal @db.Decimal(10,3)
+    speed String? @db.VarChar(255)
+    modules String? @db.VarChar(255)
+
+    link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
 }
@@ -65,10 +78,11 @@ model storage {
 
     itemName String @db.VarChar(255)
     capacity Int @db.SmallInt()
-    pricePerGB Decimal @db.Decimal(10,3)
     type String @db.VarChar(255)
-    formFactor String @db.VarChar(255)
-    interface String @db.VarChar(255)
+    formFactor String? @db.VarChar(255)
+    interface String? @db.VarChar(255)
+
+    link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
 }
@@ -77,8 +91,10 @@ model towerCase {
     id String @id @default(cuid())
 
     itemName String @db.VarChar(255)
-    color String @db.VarChar(255)
+    type String? @db.VarChar(255)
+    color String? @db.VarChar(255)
 
+    link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
 }
@@ -87,9 +103,11 @@ model psu {
     id String @id @default(cuid())
 
     itemName String @db.VarChar(255)
+    type String? @db.VarChar(255)
     wattage Int @db.SmallInt()
-    color String @db.VarChar(255)
+    color String? @db.VarChar(255)
 
+    link String @db.VarChar(255)
     image String? @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
 }
@@ -97,13 +115,15 @@ model psu {
 model monitor {
     id String @id @default(cuid())
     itemName String @db.VarChar(255)
+
     size Decimal @db.Decimal(10,1)
     resolution String @db.VarChar(255)
     refreshRate Int @db.SmallInt()
     responseTime Decimal? @db.Decimal(10,3)
-    panelType String @db.VarChar(255)
-    aspectRatio String @db.VarChar(255)
+    panelType String? @db.VarChar(255)
+    aspectRatio String? @db.VarChar(255)
 
+    link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
 }
