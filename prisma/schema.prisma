@@ -14,7 +14,7 @@ generator client {
 model videoCard {
     id  String   @id @default(cuid())
     
-    videocardName String @db.VarChar(255)
+    itemName String @db.VarChar(255)
     memory Int @db.TinyInt()
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
@@ -23,7 +23,7 @@ model videoCard {
 model cpu {
     id  String   @id @default(cuid())
     
-    cpuName String @db.VarChar(255)
+    itemName String @db.VarChar(255)
     coreCount Int @db.TinyInt()
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
@@ -32,7 +32,7 @@ model cpu {
 model cpuCooler {
     id  String   @id @default(cuid())
     
-    cpuCoolerName String @db.VarChar(255)
+    itemName String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
 }
@@ -40,7 +40,7 @@ model cpuCooler {
 model motherBoard {
     id  String   @id @default(cuid())
 
-    motherBoardName String @db.VarChar(255)
+    itemName String @db.VarChar(255)
     socket String @db.VarChar(255)
     formFactor String @db.VarChar(255)
     memorySlots Int @db.TinyInt()
@@ -52,7 +52,7 @@ model motherBoard {
 model memory {
     id  String   @id @default(cuid())
 
-    memoryName String @db.VarChar(255)
+    itemName String @db.VarChar(255)
     speed String @db.VarChar(255)
     modules String @db.VarChar(255)
     pricePerGB Decimal @db.Decimal(10,3)
@@ -63,7 +63,7 @@ model memory {
 model storage {
     id String @id @default(cuid())
 
-    storageName String @db.VarChar(255)
+    itemName String @db.VarChar(255)
     capacity Int @db.SmallInt()
     pricePerGB Decimal @db.Decimal(10,3)
     type String @db.VarChar(255)
@@ -76,7 +76,7 @@ model storage {
 model towerCase {
     id String @id @default(cuid())
 
-    type String @db.VarChar(255)
+    itemName String @db.VarChar(255)
     color String @db.VarChar(255)
 
     price Decimal @db.Decimal(10,2)
@@ -86,7 +86,7 @@ model towerCase {
 model psu {
     id String @id @default(cuid())
 
-    type String @db.VarChar(255)
+    itemName String @db.VarChar(255)
     wattage Int @db.SmallInt()
     color String @db.VarChar(255)
 
@@ -96,7 +96,7 @@ model psu {
 
 model monitor {
     id String @id @default(cuid())
-
+    itemName String @db.VarChar(255)
     size Decimal @db.Decimal(10,1)
     resolution String @db.VarChar(255)
     refreshRate Int @db.SmallInt()
