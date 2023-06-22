@@ -4,22 +4,13 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import { useState } from "react";
 import { LoadingSpinner, LoadingPage } from "~/components/loading";
-import Home from "..";
-import { useRouter } from "next/router";
 
-export default function Gpu() {
+import { useRouter } from 'next/router';
+
+export default function Home() {
   const router = useRouter();
-  const { data, isLoading: dataisLoading } = api.videoCards.getAll.useQuery();
 
-  const [selected, setSelected] = useState({});
-  const handleSelected = (item: Array<any>) => {
-    console.log(item)
-    void router.push({
-      pathname: '/',
-      query: { item },
-    })
-    //router.push('/')
-};
+  const { data, isLoading: dataisLoading } = api.cpus.getAll.useQuery();
 
   if(dataisLoading) return (
     <div className="flex grow">
@@ -56,10 +47,10 @@ export default function Gpu() {
                         Name
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Chipset
+                            Cores
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Memory
+                            Socket
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Price
@@ -72,7 +63,6 @@ export default function Gpu() {
                 </thead>
                 <tbody>
                     {data?.map((item) => (
-
                     <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                       <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
                           <Image 
@@ -87,15 +77,13 @@ export default function Gpu() {
                           null
                       </td>
                       <td className="px-6 py-4">
-                          {item.memory} GB
+                          {item.coreCount}
                       </td>
                       <td className="px-6 py-4">
                           {item.price.toString()} €
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <a onClick={()=>handleSelected([item])} className="font-medium dark:text-green-500 hover:underline">
-                          Add
-                        </a>
+                          <a href="#" className="font-medium dark:text-green-500 hover:underline">Add</a>
                       </td>
                     </tr>
 

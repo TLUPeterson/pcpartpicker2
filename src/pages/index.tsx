@@ -3,19 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
-
-
-    const [cooler, setCooler] = useState(null)
-    const [cpu, setCpu] = useState(null)
-    const [gpu, setGpu] = useState(null)
-    const [motherboard, setMotherboard] = useState(null)
-    const [ram, setRam] = useState(null)
-    const [storage, setStorage] = useState(null)
-    const [psu, setPsu] = useState(null)
-    const [tower, setTower] = useState(null)
-    const [monitor, setMonitor] = useState(null)
+    const router = useRouter();
+    const { selected } = router.query;
+    console.log(selected);
 
   return (
     <>
@@ -59,11 +52,13 @@ export default function Home() {
         </thead>
         <tbody>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    GPU
-                </th>
+                <Link href="/component/gpu">
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        GPU
+                    </th>
+                </Link>
                 <td className="px-6 py-4">
-                    Radeon x01283
+                    i123
                 </td>
                 <td className="px-6 py-4">
                     Amazon
@@ -79,9 +74,12 @@ export default function Home() {
                 </td>
             </tr>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    CPU
-                </th>
+                
+                <Link href="/component/cpu"> 
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        CPU
+                    </th>
+                </Link>
                 <td className="px-6 py-4">
                     i7814
                 </td>
