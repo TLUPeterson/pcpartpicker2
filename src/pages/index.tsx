@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 
 export default function Home() {
 
-  const {data} = api.entries.getAll.useQuery()
+  const {data} = api.videoCards.getAll.useQuery()
 
   return (
     <>
@@ -23,8 +23,8 @@ export default function Home() {
 
         <div className="text-slate-50"> 
           test
-          {data?.map((entry) => (
-            <div key={entry.id}>{entry.partName}</div>
+          {data?.map((psu) => (
+            <div key={psu.id}>{psu.videocardName}, {psu.price.toString()}</div>
             ))}
         </div>
       </main>

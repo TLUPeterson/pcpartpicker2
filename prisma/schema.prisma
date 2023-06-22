@@ -11,11 +11,99 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model Entry {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
+model videoCard {
+    id  String   @id @default(cuid())
     
-    type String @db.VarChar(255)
-    partName String @db.VarChar(255)
+    videocardName String @db.VarChar(255)
+    memory Int @db.TinyInt()
     price Decimal @db.Decimal(10,2)
+    image String? @db.VarChar(255)
+}
+
+model cpu {
+    id  String   @id @default(cuid())
+    
+    cpuName String @db.VarChar(255)
+    coreCount Int @db.TinyInt()
+    price Decimal @db.Decimal(10,2)
+    image String? @db.VarChar(255)
+}
+
+model cpuCooler {
+    id  String   @id @default(cuid())
+    
+    cpuCoolerName String @db.VarChar(255)
+    price Decimal @db.Decimal(10,2)
+    image String? @db.VarChar(255)
+}
+
+model motherBoard {
+    id  String   @id @default(cuid())
+
+    motherBoardName String @db.VarChar(255)
+    socket String @db.VarChar(255)
+    formFactor String @db.VarChar(255)
+    memorySlots Int @db.TinyInt()
+    memoryMax Int @db.SmallInt()
+    price Decimal @db.Decimal(10,2)
+    image String? @db.VarChar(255)
+}
+
+model memory {
+    id  String   @id @default(cuid())
+
+    memoryName String @db.VarChar(255)
+    speed String @db.VarChar(255)
+    modules String @db.VarChar(255)
+    pricePerGB Decimal @db.Decimal(10,3)
+    price Decimal @db.Decimal(10,2)
+    image String? @db.VarChar(255)
+}
+
+model storage {
+    id String @id @default(cuid())
+
+    storageName String @db.VarChar(255)
+    capacity Int @db.SmallInt()
+    pricePerGB Decimal @db.Decimal(10,3)
+    type String @db.VarChar(255)
+    formFactor String @db.VarChar(255)
+    interface String @db.VarChar(255)
+    price Decimal @db.Decimal(10,2)
+    image String? @db.VarChar(255)
+}
+
+model towerCase {
+    id String @id @default(cuid())
+
+    type String @db.VarChar(255)
+    color String @db.VarChar(255)
+
+    price Decimal @db.Decimal(10,2)
+    image String? @db.VarChar(255)
+}
+
+model psu {
+    id String @id @default(cuid())
+
+    type String @db.VarChar(255)
+    wattage Int @db.SmallInt()
+    color String @db.VarChar(255)
+
+    image String? @db.VarChar(255)
+    price Decimal @db.Decimal(10,2)
+}
+
+model monitor {
+    id String @id @default(cuid())
+
+    size Decimal @db.Decimal(10,1)
+    resolution String @db.VarChar(255)
+    refreshRate Int @db.SmallInt()
+    responseTime Decimal? @db.Decimal(10,3)
+    panelType String @db.VarChar(255)
+    aspectRatio String @db.VarChar(255)
+
+    price Decimal @db.Decimal(10,2)
+    image String? @db.VarChar(255)
 }
