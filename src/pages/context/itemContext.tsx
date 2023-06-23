@@ -9,31 +9,36 @@ export const ItemsProvider: React.FC<{ children: ReactNode }> = ({
   const [items, setItems] = useState<object>({});
 
   useEffect(() => {
+    if (Object.keys(items).length >0){
+      localStorage.setItem("items", JSON.stringify(items));
+    }
+  }, [items]);
+
+  useEffect(() => {
     const fetchItems = () => {
-      console.log('test');
-      
-      const storedItems = localStorage.getItem("gpu");
-      console.log(storedItems);
-
+      const storedItems = JSON.parse(localStorage.getItem("items"))
+      if (storedItems) setItems(storedItems);
     };
-
     fetchItems();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("components", JSON.stringify(items));
-  }, [items]);
-
   const addItem = (key: string, value: object) => {
     setItems((prevItems) => ({
-      ...prevItems, 
-      [key]: value
+      ...prevItems,
+      [key]: value,
     }));
   };
-  
+
+  const removeItem = (key: string) => {
+    setItems((prevItems) => {
+      const updatedItems = { ...prevItems };
+      delete updatedItems[key];
+      return updatedItems;
+    });
+  };
 
   return (
-    <ItemsContext.Provider value={{ items, addItem }}>
+    <ItemsContext.Provider value={{ items, addItem, removeItem }}>
       {children}
     </ItemsContext.Provider>
   );

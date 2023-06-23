@@ -1,16 +1,26 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from '~/components/button'
+import { ItemsContext } from "./context/itemContext";
+import { useRouter } from "next/router";
 
-export default function Home({items, setItems}) {
+export default function Home() {
     //const [gpu, setGpu] = useState(JSON.parse(localStorage.getItem('GPU')))
+    const router = useRouter();
+    const { removeItem, items } = useContext(ItemsContext);
 
-const handleRemove = (itemType: string)=>{
-    console.log(itemType, 'remove')
-    localStorage.removeItem(itemType)
-}
+    const isItemInLocalStorage = (itemType: string) => {
+        console.log('items>', items, 'type>',itemType, items[itemType])
+        const item = items[itemType];
+        return item !== undefined;
+      };
+
+    const gotoPage = (page: string) => {
+        router.push('/component/'+page)
+        .catch(err => console.log(err))
+    }
 return (
     <>
         <Head>
@@ -52,26 +62,55 @@ return (
         </thead>
         <tbody>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     <Link href="/component/gpu">
                         GPU
                     </Link>
                 </th>
-                <td className="px-6 py-4">
-                    i123
+                {isItemInLocalStorage("gpu")?
+                (<>
+                <td className="px-6 py-4  flex items-center">
+                    <Image alt="gpu image" 
+                    src={items.gpu.image?items.gpu.image:"https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png"} 
+                    width={100}
+                    height={100}
+                    className="mr-2"
+                    />
+                    <span className="flex-grow">{items.gpu.itemName}</span>
                 </td>
                 <td className="px-6 py-4">
-                    Amazon
+                    Amazon, ADD TO DB
                 </td>
                 <td className="px-6 py-4">
-                    $2999
+                    {items.gpu.price} €
                 </td>
                 <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
+                    <a href={items.gpu.link} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
                 </td>
                 <td className="px-6 py-4 text-right">
-                    <button onClick={()=>handleRemove("gpu")} className="font-medium dark:text-red-500 hover:underline">X</button>
+                    <button onClick={()=>removeItem("gpu")} className="font-medium dark:text-red-500 hover:underline">X</button>
                 </td>
+                </>)
+                :
+                (<>
+                    <td className="px-6 py-4">
+                    <button onClick={()=>gotoPage('gpu')} type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Choose A Video Card</button>
+                    </td>
+                    <td className="px-6 py-4">
+                        
+                    </td>
+                    <td className="px-6 py-4">
+                        
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                        <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline"></a>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                        <button onClick={()=>removeItem("gpu")} className="font-medium dark:text-red-500 hover:underline"></button>
+                    </td>
+                    </>)}
+                
             </tr>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 
