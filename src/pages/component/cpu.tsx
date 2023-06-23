@@ -2,15 +2,25 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LoadingSpinner, LoadingPage } from "~/components/loading";
+import Home from "..";
+import { useRouter } from "next/router";
+import { ItemsContext } from "../context/itemContext";
 
-import { useRouter } from 'next/router';
-
-export default function Home() {
+const cpuPage: React.FC = () => {
   const router = useRouter();
-
   const { data, isLoading: dataisLoading } = api.cpus.getAll.useQuery();
+  const { items, addItem } = useContext(ItemsContext);
+  console.log(items)
+
+
+  const handleClick = (item:object)=>{
+    //localStorage.setItem('cpu', JSON.stringify(item))
+    addItem('cpu', item)
+    console.log(item)
+    //router.push('/').catch(err=>console.log(err))
+  }
 
   if(dataisLoading) return (
     <div className="flex grow">
@@ -47,10 +57,10 @@ export default function Home() {
                         Name
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Cores
+                            Chipset
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Socket
+                            Memory
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Price
@@ -63,10 +73,11 @@ export default function Home() {
                 </thead>
                 <tbody>
                     {data?.map((item) => (
+
                     <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                       <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
                           <Image 
-                          alt="gpu image" 
+                          alt="cpu image" 
                           src={item.image?item.image:'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png'}
                           width={50}
                           height={50}
@@ -77,13 +88,15 @@ export default function Home() {
                           null
                       </td>
                       <td className="px-6 py-4">
-                          {item.coreCount}
+                          {item.memory} GB
                       </td>
                       <td className="px-6 py-4">
                           {item.price.toString()} €
                       </td>
                       <td className="px-6 py-4 text-right">
-                          <a href="#" className="font-medium dark:text-green-500 hover:underline">Add</a>
+                        <button onClick={()=>handleClick(item)} className="font-medium dark:text-green-500 hover:underline">
+                          Add
+                        </button>
                       </td>
                     </tr>
 
@@ -98,3 +111,4 @@ export default function Home() {
     </>
   );
 }
+export default cpuPage;

@@ -2,24 +2,25 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LoadingSpinner, LoadingPage } from "~/components/loading";
 import Home from "..";
 import { useRouter } from "next/router";
+import { ItemsContext } from "../context/itemContext";
 
-export default function Gpu() {
+const GpuPage: React.FC = () => {
   const router = useRouter();
   const { data, isLoading: dataisLoading } = api.videoCards.getAll.useQuery();
+  //console.log(typeof data)
+  const { items, addItem } = useContext(ItemsContext);
+  console.log(items)
 
-  const [selected, setSelected] = useState({});
-  const handleSelected = (item: Array<any>) => {
-    console.log(item)
-    void router.push({
-      pathname: '/',
-      query: { item },
-    })
-    //router.push('/')
-};
+
+  const handleClick = (item:object)=>{
+    //localStorage.setItem('gpu', JSON.stringify(item))
+    addItem('gpu', item)
+    //router.push('/').catch(err=>console.log(err))
+  }
 
   if(dataisLoading) return (
     <div className="flex grow">
@@ -93,9 +94,9 @@ export default function Gpu() {
                           {item.price.toString()} €
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <a onClick={()=>handleSelected([item])} className="font-medium dark:text-green-500 hover:underline">
+                        <button onClick={()=>handleClick(item)} className="font-medium dark:text-green-500 hover:underline">
                           Add
-                        </a>
+                        </button>
                       </td>
                     </tr>
 
@@ -110,3 +111,4 @@ export default function Gpu() {
     </>
   );
 }
+export default GpuPage;
