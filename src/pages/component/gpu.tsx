@@ -77,6 +77,7 @@ const GpuPage: React.FC = () => {
                           src={item.image?item.image:'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png'}
                           width={50}
                           height={50}
+                          className="w-auto h-auto"
                           /> <span className="flex pl-6">{item.itemName}</span>
                       </th>
                       

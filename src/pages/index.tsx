@@ -75,7 +75,7 @@ return (
                     src={items.gpu.image?items.gpu.image:"https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png"} 
                     width={100}
                     height={100}
-                    className="mr-2"
+                    className="mr-2 w-auto h-auto"
                     />
                     <span className="flex-grow">{items.gpu.itemName}</span>
                 </td>
