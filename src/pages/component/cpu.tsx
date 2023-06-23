@@ -8,7 +8,7 @@ import Home from "..";
 import { useRouter } from "next/router";
 import { ItemsContext } from "../context/itemContext";
 
-const cpuPage: React.FC = () => {
+const CPUPage: React.FC = () => {
   const router = useRouter();
   const { data, isLoading: dataisLoading } = api.cpus.getAll.useQuery();
   const { items, addItem } = useContext(ItemsContext);
@@ -112,4 +112,4 @@ const cpuPage: React.FC = () => {
     </>
   );
 }
-export default cpuPage;
+export default CPUPage;
