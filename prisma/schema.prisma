@@ -16,8 +16,9 @@ model videoCard {
     
     itemName String @db.VarChar(255)
     memory Int @db.TinyInt()
-    chipset String @db.VarChar(255)
+    chipset String? @db.VarChar(255)
 
+    store String @db.VarChar(255)
     link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
@@ -31,6 +32,7 @@ model cpu {
     coreClock Decimal? @db.Decimal(3,1)
     socket String? @db.VarChar(255)
 
+    store String @db.VarChar(255)
     link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
@@ -42,6 +44,7 @@ model cpuCooler {
     itemName String @db.VarChar(255)
     size String? @db.VarChar(255)
 
+    store String @db.VarChar(255)
     link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
@@ -56,6 +59,7 @@ model motherBoard {
     memorySlots Int? @db.TinyInt()
     memoryMax Int? @db.SmallInt()
 
+    store String @db.VarChar(255)
     link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
@@ -68,6 +72,7 @@ model memory {
     speed String? @db.VarChar(255)
     modules String? @db.VarChar(255)
 
+    store String @db.VarChar(255)
     link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
@@ -82,6 +87,7 @@ model storage {
     formFactor String? @db.VarChar(255)
     interface String? @db.VarChar(255)
 
+    store String @db.VarChar(255)
     link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
@@ -94,6 +100,7 @@ model towerCase {
     type String? @db.VarChar(255)
     color String? @db.VarChar(255)
 
+    store String @db.VarChar(255)
     link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)
@@ -107,6 +114,7 @@ model psu {
     wattage Int @db.SmallInt()
     color String? @db.VarChar(255)
 
+    store String @db.VarChar(255)
     link String @db.VarChar(255)
     image String? @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
@@ -123,6 +131,7 @@ model monitor {
     panelType String? @db.VarChar(255)
     aspectRatio String? @db.VarChar(255)
 
+    store String @db.VarChar(255)
     link String @db.VarChar(255)
     price Decimal @db.Decimal(10,2)
     image String? @db.VarChar(255)

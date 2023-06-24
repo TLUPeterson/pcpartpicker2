@@ -1,9 +1,20 @@
-import { createContext, useState, useEffect, ReactNode } from "react";
-import { api } from "~/utils/api";
+import { createContext, useState, useEffect } from "react";
 
-export const ItemsContext = createContext<object>({});
+interface ItemsContextType {
+  items: object;
+  addItem: (key: string, value: object) => void;
+  removeItem: (key: string) => void;
+}
 
-export const ItemsProvider: React.FC<{ children: ReactNode }> = ({
+export const ItemsContext = createContext<ItemsContextType>({
+  items: {},
+  addItem: () => null,
+  removeItem: () => null,
+});
+
+//export const ItemsContext = createContext<object>({});
+
+export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [items, setItems] = useState<object>({});
@@ -16,8 +27,14 @@ export const ItemsProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const fetchItems = () => {
-      const storedItems = JSON.parse(localStorage.getItem("items"))
-      if (storedItems) setItems(storedItems);
+      const storedItems = localStorage.getItem("items");
+      if (storedItems !== null) {
+        const parsedItems = JSON.parse(storedItems) as object;
+        if (parsedItems) {
+          setItems(parsedItems);
+        }
+      }
+
     };
     fetchItems();
   }, []);
@@ -32,10 +49,11 @@ export const ItemsProvider: React.FC<{ children: ReactNode }> = ({
   const removeItem = (key: string) => {
     setItems((prevItems) => {
       const updatedItems = { ...prevItems };
-      delete updatedItems[key];
+      delete updatedItems[key as keyof typeof prevItems];
       return updatedItems;
     });
   };
+  
 
   return (
     <ItemsContext.Provider value={{ items, addItem, removeItem }}>

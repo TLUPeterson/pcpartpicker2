@@ -1,26 +1,49 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
-import { Button } from '~/components/button'
+import { useContext } from "react";
 import { ItemsContext } from "./context/itemContext";
 import { useRouter } from "next/router";
 
 export default function Home() {
-    //const [gpu, setGpu] = useState(JSON.parse(localStorage.getItem('GPU')))
     const router = useRouter();
     const { removeItem, items } = useContext(ItemsContext);
 
     const isItemInLocalStorage = (itemType: string) => {
-        console.log('items>', items, 'type>',itemType, items[itemType])
         const item = items[itemType];
         return item !== undefined;
-      };
+    };
 
     const gotoPage = (page: string) => {
         router.push('/component/'+page)
         .catch(err => console.log(err))
     }
+
+    const totalPrice = () => {
+        let total = 0;
+        Object.keys(itemNameTable).forEach((item) => {
+            const currItem = items[item];
+            if (currItem) {
+                console.log(Number(items[item].price))
+                total += Number(items[item].price);
+            }
+        });
+        return total.toFixed(2);
+    };
+
+    const itemNameTable = {
+        cpu: 'CPU',
+        gpu: 'Video Card',
+        cpuCooler: 'CPU Cooler',
+        motherboard: 'Motherboard',
+        memory: 'Memory',
+        storage: 'Storage',
+        case: 'Case',
+        psu: 'Power Supply',
+        monitor: 'Monitor',
+    }
+
+
 return (
     <>
         <Head>
@@ -61,252 +84,79 @@ return (
             </tr>
         </thead>
         <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link href="/component/gpu">
-                        GPU
-                    </Link>
-                </th>
-                {isItemInLocalStorage("gpu")?
-                (<>
-                <td className="px-6 py-4  flex items-center">
-                    <Image alt="gpu image" 
-                    src={items.gpu.image?items.gpu.image:"https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png"} 
-                    width={100}
-                    height={100}
-                    className="mr-2 w-auto h-auto"
-                    />
-                    <span className="flex-grow">{items.gpu.itemName}</span>
-                </td>
-                <td className="px-6 py-4">
-                    Amazon, ADD TO DB
-                </td>
-                <td className="px-6 py-4">
-                    {items.gpu.price} €
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href={items.gpu.link} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={()=>removeItem("gpu")} className="font-medium dark:text-red-500 hover:underline">X</button>
-                </td>
-                </>)
-                :
-                (<>
-                    <td className="px-6 py-4">
-                    <button onClick={()=>gotoPage('gpu')} type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Choose A Video Card</button>
+            {Object.keys(itemNameTable).map((item)=>
+            <>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <Link href={`/component/${item}`}>
+                            {itemNameTable[item]}
+                        </Link>
+                    </th>
+                    {isItemInLocalStorage(item)?
+                    (<>
+                    <td className="px-6 py-4  flex items-center">
+                        <Image alt={`${item} image`}
+                        src={items[item].image?items[item].image:"https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png"} 
+                        width={100}
+                        height={100}
+                        className="mr-2 w-auto h-auto"
+                        />
+                        <span className="flex-grow">{items[item].itemName}</span>
                     </td>
                     <td className="px-6 py-4">
-                        
+                        {items[item].store ? items[item].store : "N/A"}
                     </td>
                     <td className="px-6 py-4">
-                        
+                        {items[item].price} €
                     </td>
                     <td className="px-6 py-4 text-right">
-                        <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline"></a>
+                        <a href={items[item].link} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
                     </td>
                     <td className="px-6 py-4 text-right">
-                        <button onClick={()=>removeItem("gpu")} className="font-medium dark:text-red-500 hover:underline"></button>
+                        <button onClick={()=>removeItem(item)} className="font-medium dark:text-red-500 hover:underline">X</button>
                     </td>
-                    </>)}
-                
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link href="/component/cpu">
-                        CPU
-                    </Link>
-                </th>
-                <td className="px-6 py-4">
-                    i7814
-                </td>
-                <td className="px-6 py-4">
-                    Arvutitark
-                </td>
-                <td className="px-6 py-4">
-                    $1999
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={()=>handleRemove("cpu")} className="font-medium dark:text-red-500 hover:underline">X</button>
-                </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link href="/component/cooler">
-                        CPU Cooler
-                    </Link>
-                </th>
-                <td className="px-6 py-4">
-                    asdsad
-                </td>
-                <td className="px-6 py-4">
-                    Arvutitark
-                </td>
-                <td className="px-6 py-4">
-                    $1999
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={()=>handleRemove("cooler")} className="font-medium dark:text-red-500 hover:underline">X</button>
-                </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link href="/component/tower">
-                        Case
-                    </Link>
-                </th>
-                <td className="px-6 py-4">
-                    i7814
-                </td>
-                <td className="px-6 py-4">
-                    Arvutitark
-                </td>
-                <td className="px-6 py-4">
-                    $1999
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={()=>handleRemove("case")} className="font-medium dark:text-red-500 hover:underline">X</button>
-                </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link href="/component/memory">
-                        Memory
-                    </Link>
-                </th>
-                <td className="px-6 py-4">
-                    i7814
-                </td>
-                <td className="px-6 py-4">
-                    Arvutitark
-                </td>
-                <td className="px-6 py-4">
-                    $1999
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={()=>handleRemove("memory")} className="font-medium dark:text-red-500 hover:underline">X</button>
-                </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link href="/component/storage">
-                        Storage
-                    </Link>
-                </th>
-                <td className="px-6 py-4">
-                    i7814
-                </td>
-                <td className="px-6 py-4">
-                    Arvutitark
-                </td>
-                <td className="px-6 py-4">
-                    $1999
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={()=>handleRemove("storage")} className="font-medium dark:text-red-500 hover:underline">X</button>
-                </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link href="/component/psu">
-                        PSU
-                    </Link>
-                </th>
-                <td className="px-6 py-4">
-                    i7814
-                </td>
-                <td className="px-6 py-4">
-                    Arvutitark
-                </td>
-                <td className="px-6 py-4">
-                    $1999
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={()=>handleRemove("psu")} className="font-medium dark:text-red-500 hover:underline">X</button>
-                </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link href="/component/motherboard">
-                        Motherboard
-                    </Link>
-                </th>
-                <td className="px-6 py-4">
-                    i7814
-                </td>
-                <td className="px-6 py-4">
-                    Arvutitark
-                </td>
-                <td className="px-6 py-4">
-                    $1999
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={()=>handleRemove("motherboard")} className="font-medium dark:text-red-500 hover:underline">X</button>
-                </td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <Link href="/component/monitor">
-                        Monitor
-                    </Link>
-                </th>
-                <td className="px-6 py-4">
-                    500W psu
-                </td>
-                <td className="px-6 py-4">
-                    1a
-                </td>
-                <td className="px-6 py-4">
-                    $99
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={()=>handleRemove("monitor")} className="font-medium dark:text-red-500 hover:underline">X</button>
-                </td>
-            </tr>
-            <tr className="text-xs border-t text-gray-700  uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </>)
+                    :
+                    (<>
+                        <td className="px-6 py-4">
+                        <button onClick={()=>gotoPage(item)} type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Choose {itemNameTable[item]}</button>
+                        </td>
+                        <td className="px-6 py-4">
+                        </td>
+                        <td className="px-6 py-4">
+                            
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                            <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline"></a>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                            <button onClick={()=>removeItem("gpu")} className="font-medium dark:text-red-500 hover:underline"></button>
+                        </td>
+                        </>)}
+                        
+                        
                     
-                </th>
-                <td className="px-6 py-4">
-                    
-                </td>
-                <td className="px-6 py-4">
-                    
-                </td>
-                <td className="px-6 py-4">
-                    total sum
-                </td>
-                <td className="px-6 py-4 text-right">
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <a href="#" className="font-medium dark:text-red-500 hover:underline"></a>
-                </td>
+                </tr>
+            </>
+            
+            
+            )}
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
+            </th>
+            <td className="px-6 py-4">
+            </td>
+            <td className="px-6 py-4">
+            </td>
+            <td className="px-6 py-4">
+                Total: {totalPrice()} €
+            </td>
+            <td className="px-6 py-4">
+            </td>
+            <td className="px-6 py-4">
+            </td>
             </tr>
         </tbody>
     </table>

@@ -7,13 +7,13 @@ import { LoadingPage } from "~/components/loading";
 import { useRouter } from "next/router";
 import { ItemsContext } from "../context/itemContext";
 
-const GpuPage: React.FC = () => {
+const CpuCoolerPage: React.FC = () => {
   const router = useRouter();
-  const { data, isLoading: dataisLoading } = api.videoCards.getAll.useQuery();
+  const { data, isLoading: dataisLoading } = api.cpuCoolers.getAll.useQuery();
   const { addItem } = useContext(ItemsContext);
 
   const handleClick = (item: object) => {
-    addItem('gpu', item);
+    addItem('cpuCooler', item);
     router.push('/').catch(err => console.log(err));
   };
   
@@ -53,13 +53,13 @@ const GpuPage: React.FC = () => {
                         Name
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Chipset
+                        Core Count
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Memory
+                        Core Clock Performance
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Price
+                        Price
                         </th>
                         <th scope="col" className="px-6 py-3">
                             <span className="sr-only">Buy</span>
@@ -73,7 +73,7 @@ const GpuPage: React.FC = () => {
                     <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                       <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
                           <Image 
-                          alt="gpu image" 
+                          alt="cpu cooler image" 
                           src={item.image?item.image:'https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png'}
                           width={50}
                           height={50}
@@ -82,10 +82,10 @@ const GpuPage: React.FC = () => {
                       </th>
                       
                       <td className="px-6 py-4">
-                          {item.chipset}
+                          {item.coreCount}
                       </td>
                       <td className="px-6 py-4">
-                          {item.memory} GB
+                          {item.coreClock} GHz
                       </td>
                       <td className="px-6 py-4">
                           {item.price.toString()} €
@@ -108,4 +108,4 @@ const GpuPage: React.FC = () => {
     </>
   );
 }
-export default GpuPage;
+export default CpuCoolerPage;
