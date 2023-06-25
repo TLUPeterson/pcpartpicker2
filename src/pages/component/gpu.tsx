@@ -114,16 +114,14 @@ const sortedData = [...data].sort((a, b) => {
                     className="px-6 py-3 cursor-pointer"
                     onClick={() => handleSort("coreCount")}
                   >
-                    Core Count
+                    Chipset
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
                     onClick={() => handleSort("coreClock")}
                   >
-                    Core Clock
-                    <br />
-                    Performance
+                    Memory
                   </th>
                   <th
                     scope="col"
@@ -158,11 +156,11 @@ const sortedData = [...data].sort((a, b) => {
                         height={50}
                         className="w-auto h-auto"
                       /> */}
-                      <span className="flex pl-6">{item.itemName}</span>
+                      {item.itemName}
                     </th>
 
-                    <td className="px-6 py-4">{item.coreCount}</td>
-                    <td className="px-6 py-4">{item.coreClock ? `${item.coreClock.toString()} GHz` : "-"}</td>
+                    <td className="px-6 py-4">{item.chipset}</td>
+                    <td className="px-6 py-4">{item.memory}</td>
                     <td className="px-6 py-4">{item.price.toString()} €</td>
                     <td className="px-6 py-4 text-right">
                       <button
