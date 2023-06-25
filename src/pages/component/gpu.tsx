@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 import { useContext } from "react";
 import { LoadingPage } from "~/components/loading";
 import { useRouter } from "next/router";
-import { ItemsContext } from "../context/itemContext";
+import { ItemsContext } from "../../context/itemContext";
 
 const GpuPage: React.FC = () => {
   const router = useRouter();

@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 import { useContext } from "react";
 import { LoadingPage } from "~/components/loading";
 import { useRouter } from "next/router";
-import { ItemsContext } from "../context/itemContext";
+import { ItemsContext } from "../../context/itemContext";
 
 const ITEMS_PER_PAGE = 15; // Number of items per page
 
