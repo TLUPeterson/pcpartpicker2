@@ -7,10 +7,11 @@ import { useRouter } from "next/router";
 
 export default function Home() {
     const router = useRouter();
-    const { removeItem, items } = useContext(ItemsContext);
+    const { removeItem, items } = useContext(ItemsContext);      
 
     const isItemInLocalStorage = (itemType: string) => {
-        const item = items[itemType];
+        const item = items[itemType as keyof typeof items];//?
+
         return item !== undefined;
     };
 
@@ -22,11 +23,10 @@ export default function Home() {
     const totalPrice = () => {
         let total = 0;
         Object.keys(itemNameTable).forEach((item) => {
-            const currItem = items[item];
-            if (currItem) {
-                console.log(Number(items[item].price))
-                total += Number(items[item].price);
-            }
+        const currItem = items[item as keyof typeof items];
+        if (currItem) {
+            total += Number(currItem.price);
+        }
         });
         return total.toFixed(2);
     };

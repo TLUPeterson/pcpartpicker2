@@ -1,7 +1,28 @@
 import { createContext, useState, useEffect } from "react";
 
+interface Item {
+  itemName: string;
+  store: string;
+  price: number;
+  link: string;
+  image?: string;
+}
+
+interface Items {
+  cpu?: Item;
+  gpu?: Item;
+  cpuCooler?: Item;
+  motherboard?: Item;
+  memory?: Item;
+  storage?: Item;
+  case?: Item;
+  psu?: Item;
+  monitor?: Item;
+}
+
+
 interface ItemsContextType {
-  items: object;
+  items: Items;
   addItem: (key: string, value: object) => void;
   removeItem: (key: string) => void;
 }

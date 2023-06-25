@@ -41,11 +41,12 @@ const CpuPage: React.FC = () => {
     }
   };
 
-  // Sorting logic
-  const sortedData = [...data].sort((a, b) => {
+// Sorting logic
+const sortedData = [...data].sort((a, b) => {
+  if (sortColumn !== null && sortColumn !== undefined) {
     if (sortColumn === "coreCount" || sortColumn === "coreClock" || sortColumn === "price") {
-      const aValue = parseFloat(a[sortColumn]);
-      const bValue = parseFloat(b[sortColumn]);
+      const aValue = a[sortColumn as keyof typeof a] !== null ? parseFloat(String(a[sortColumn as keyof typeof a])) : 0;
+      const bValue = b[sortColumn as keyof typeof b] !== null ? parseFloat(String(b[sortColumn as keyof typeof b])) : 0;
 
       if (aValue < bValue) {
         return sortOrder === "asc" ? -1 : 1;
@@ -57,14 +58,25 @@ const CpuPage: React.FC = () => {
     }
 
     // Default sorting for other columns (string sorting)
-    if (a[sortColumn] < b[sortColumn]) {
+    if (a[sortColumn as keyof typeof a]! < b[sortColumn as keyof typeof b]!) {
       return sortOrder === "asc" ? -1 : 1;
     }
-    if (a[sortColumn] > b[sortColumn]) {
+    if (a[sortColumn as keyof typeof a]! > b[sortColumn as keyof typeof b]!) {
       return sortOrder === "asc" ? 1 : -1;
     }
-    return 0;
-  });
+  }
+  return 0;
+});
+
+
+
+
+
+
+
+
+
+
 
   // Pagination logic
   const totalItems = sortedData.length;
@@ -159,7 +171,7 @@ const CpuPage: React.FC = () => {
                     </th>
 
                     <td className="px-6 py-4">{item.coreCount}</td>
-                    <td className="px-6 py-4">{item.coreClock} GHz</td>
+                    <td className="px-6 py-4">{item.coreClock ? `${item.coreClock.toString()} GHz` : "-"}</td>
                     <td className="px-6 py-4">{item.price.toString()} €</td>
                     <td className="px-6 py-4 text-right">
                       <button
