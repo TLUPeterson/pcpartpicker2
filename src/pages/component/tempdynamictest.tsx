@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,20 +10,72 @@ import { ItemsContext } from "../../context/itemContext";
 
 const ITEMS_PER_PAGE = 15; // Number of items per page
 
-const CpuPage: React.FC = () => {
+const CategoryPage: React.FC = () => {
   const router = useRouter();
-  const { data, isLoading: dataisLoading } = api.cpus.getAll.useQuery();
+  const category = router.query.category as string; // Dynamic category value from the URL
   const { addItem } = useContext(ItemsContext);
+  const [data, setData] = useState<object[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let fetchedData;
+
+        switch (category) {
+          case "cpu":
+            fetchedData = await api.cpus.getAll.useQuery();
+            break;
+          case "gpu":
+            fetchedData = await api.videoCards.getAll.useQuery();
+            break;
+          case "motherboard":
+            fetchedData = await api.motherboards.getAll.useQuery();
+            break;
+          case "ram":
+            fetchedData = await api.memorys.getAll.useQuery();
+            break;
+          case "storage":
+            fetchedData = await api.storages.getAll.useQuery();
+            break;
+          case "psu":
+            fetchedData = await api.psus.getAll.useQuery();
+            break;
+          case "case":
+            fetchedData = await api.towerCases.getAll.useQuery();
+            break;
+          case "cooler":
+            fetchedData = await api.cpuCoolers.getAll.useQuery();
+            break;
+          case "monitor":
+            fetchedData = await api.monitors.getAll.useQuery();
+            break;
+          default:
+            router.push("/").catch((err) => console.log(err));
+            return;
+        }
+
+        setData(fetchedData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [category]);
+
+
   const handleClick = (item: object) => {
-    addItem("cpu", item);
+    addItem(category, item); // Use dynamic category value
     router.push("/").catch((err) => console.log(err));
   };
 
-  if (dataisLoading)
+  if (isLoading)
     return (
       <div className="flex grow">
         <LoadingPage />
@@ -41,33 +93,31 @@ const CpuPage: React.FC = () => {
     }
   };
 
-// Sorting logic
-const sortedData = [...data].sort((a, b) => {
-  if (sortColumn !== null && sortColumn !== undefined) {
-    if (sortColumn === "coreCount" || sortColumn === "coreClock" || sortColumn === "price") {
-      const aValue = a[sortColumn as keyof typeof a] !== null ? parseFloat(String(a[sortColumn as keyof typeof a])) : 0;
-      const bValue = b[sortColumn as keyof typeof b] !== null ? parseFloat(String(b[sortColumn as keyof typeof b])) : 0;
-
-      if (aValue < bValue) {
+  const sortedData = [...data].sort((a, b) => {
+    if (sortColumn !== null && sortColumn !== undefined) {
+      if (sortColumn === "coreCount" || sortColumn === "coreClock" || sortColumn === "price") {
+        const aValue = a[sortColumn as keyof typeof a] !== null ? parseFloat(String(a[sortColumn as keyof typeof a])) : 0;
+        const bValue = b[sortColumn as keyof typeof b] !== null ? parseFloat(String(b[sortColumn as keyof typeof b])) : 0;
+  
+        if (aValue < bValue) {
+          return sortOrder === "asc" ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortOrder === "asc" ? 1 : -1;
+        }
+        return 0;
+      }
+  
+      // Default sorting for other columns (string sorting)
+      if (a[sortColumn as keyof typeof a]! < b[sortColumn as keyof typeof b]!) {
         return sortOrder === "asc" ? -1 : 1;
       }
-      if (aValue > bValue) {
+      if (a[sortColumn as keyof typeof a]! > b[sortColumn as keyof typeof b]!) {
         return sortOrder === "asc" ? 1 : -1;
       }
-      return 0;
     }
-
-    // Default sorting for other columns (string sorting)
-    if (a[sortColumn as keyof typeof a]! < b[sortColumn as keyof typeof b]!) {
-      return sortOrder === "asc" ? -1 : 1;
-    }
-    if (a[sortColumn as keyof typeof a]! > b[sortColumn as keyof typeof b]!) {
-      return sortOrder === "asc" ? 1 : -1;
-    }
-  }
-  return 0;
-});
-
+    return 0;
+  });
 
   // Pagination logic
   const totalItems = sortedData.length;
@@ -200,4 +250,4 @@ const sortedData = [...data].sort((a, b) => {
   );
 };
 
-export default CpuPage;
+export default CategoryPage;

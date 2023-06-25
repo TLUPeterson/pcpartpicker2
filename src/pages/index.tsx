@@ -96,12 +96,12 @@ return (
                     {isItemInLocalStorage(item)?
                     (<>
                     <td className="px-6 py-4  flex items-center">
-                        <Image alt={`${item} image`}
+                        {/* <Image alt={`${item} image`}
                         src={items[item].image?items[item].image:"https://developers.google.com/static/maps/documentation/streetview/images/error-image-generic.png"} 
                         width={100}
                         height={100}
                         className="mr-2 w-auto h-auto"
-                        />
+                        /> */}
                         <span className="flex-grow">{items[item].itemName}</span>
                     </td>
                     <td className="px-6 py-4">
@@ -111,7 +111,7 @@ return (
                         {items[item].price} €
                     </td>
                     <td className="px-6 py-4 text-right">
-                        <a href={items[item].link} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
+                        <a  target="_blank" rel="noopener noreferrer" href={items[item].link} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Buy</a>
                     </td>
                     <td className="px-6 py-4 text-right">
                         <button onClick={()=>removeItem(item)} className="font-medium dark:text-red-500 hover:underline">X</button>

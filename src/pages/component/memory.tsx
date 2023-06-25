@@ -10,16 +10,16 @@ import { ItemsContext } from "../../context/itemContext";
 
 const ITEMS_PER_PAGE = 15; // Number of items per page
 
-const CpuPage: React.FC = () => {
+const MemoryPage: React.FC = () => {
   const router = useRouter();
-  const { data, isLoading: dataisLoading } = api.cpus.getAll.useQuery();
+  const { data, isLoading: dataisLoading } = api.memorys.getAll.useQuery();
   const { addItem } = useContext(ItemsContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
 
   const handleClick = (item: object) => {
-    addItem("cpu", item);
+    addItem("memory", item);
     router.push("/").catch((err) => console.log(err));
   };
 
@@ -114,16 +114,14 @@ const sortedData = [...data].sort((a, b) => {
                     className="px-6 py-3 cursor-pointer"
                     onClick={() => handleSort("coreCount")}
                   >
-                    Core Count
+                    Speed
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
                     onClick={() => handleSort("coreClock")}
                   >
-                    Core Clock
-                    <br />
-                    Performance
+                    Modules
                   </th>
                   <th
                     scope="col"
@@ -148,7 +146,7 @@ const sortedData = [...data].sort((a, b) => {
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center"
                     >
                       {/* <Image
-                        alt="cpu image"
+                        alt="memory image"
                         src={
                           item.image
                             ? item.image
@@ -158,11 +156,11 @@ const sortedData = [...data].sort((a, b) => {
                         height={50}
                         className="w-auto h-auto"
                       /> */}
-                      <span className="flex pl-6">{item.itemName}</span>
+                      {item.itemName}
                     </th>
 
-                    <td className="px-6 py-4">{item.coreCount}</td>
-                    <td className="px-6 py-4">{item.coreClock ? `${item.coreClock.toString()} GHz` : "-"}</td>
+                    <td className="px-6 py-4">{item.speed}</td>
+                    <td className="px-6 py-4">{item.modules}</td>
                     <td className="px-6 py-4">{item.price.toString()} €</td>
                     <td className="px-6 py-4 text-right">
                       <button
@@ -200,4 +198,4 @@ const sortedData = [...data].sort((a, b) => {
   );
 };
 
-export default CpuPage;
+export default MemoryPage;
