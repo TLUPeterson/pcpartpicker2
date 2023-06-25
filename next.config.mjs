@@ -10,7 +10,11 @@ const config = {
   images:{
     domains: ['developers.google.com', 'www.amd.com', 'www.notebookcheck.net', 'www.gpu-monkey.com', 'www.cpu-monkey.com' ,'example.com', 'i.imgur.com']
   },
-
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if

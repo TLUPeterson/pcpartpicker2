@@ -4,21 +4,21 @@ const path = require("path");
 const config = {
   overrides: [
     {
-      /*extends: [
+      extends: [
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      ],*/
+      ],
       files: ["*.ts", "*.tsx"],
       parserOptions: {
         project: path.join(__dirname, "tsconfig.json"),
       },
     },
   ],
-  //parser: "@typescript-eslint/parser",
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     project: path.join(__dirname, "tsconfig.json"),
   },
-  //plugins: ["@typescript-eslint"],
-  extends: ["next/core-web-vitals"],
+  plugins: ["@typescript-eslint"],
+  extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   ignorePatterns: ["prismaData.js", "prismaTest.js"],
   rules: {
     "@typescript-eslint/consistent-type-imports": [
