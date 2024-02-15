@@ -1,15 +1,15 @@
-import { PrismaClient } from "@prisma/client";
-import { env } from "~/env.mjs";
+import { PrismaClient } from '@prisma/client'
+import { PrismaLibSQL } from '@prisma/adapter-libsql'
+import { createClient } from '@libsql/client'
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
+// Create a Turso libsql client
+const libsql = createClient({
+  url: `${process.env.TURSO_DATABASE_URL}`,
+  authToken: `${process.env.TURSO_AUTH_TOKEN}`,
+})
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log:
-      env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-  });
+const adapter = new PrismaLibSQL(libsql)
 
-if (env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+const prisma = new PrismaClient({ adapter })
+
+export default prisma

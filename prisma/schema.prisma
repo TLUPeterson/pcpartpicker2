@@ -1,138 +1,121 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-    provider     = "mysql"
-    url          = env("DATABASE_URL")
-    relationMode = "prisma"
-}
-
 generator client {
     provider = "prisma-client-js"
+    previewFeatures = ["driverAdapters"]
 }
 
-model videoCard {
-    id  String   @id @default(cuid())
-    
-    itemName String @db.VarChar(255)
-    memory Int @db.TinyInt()
-    chipset String? @db.VarChar(255)
+datasource db {
+    provider     = "sqlite"
+    url          = "file:./dev.db"
+}
 
-    store String @db.VarChar(255)
-    link String @db.VarChar(255)
-    price Decimal @db.Decimal(10,2)
-    image String? @db.VarChar(255)
+//For local
+// url          = "file:./dev.db"
+
+
+model videoCard {
+    id        String   @id @default(cuid())
+    itemName  String
+    memory    Int
+    chipset   String?
+    store     String
+    link      String
+    price     Decimal
+    image     String?
 }
 
 model cpu {
-    id  String   @id @default(cuid())
-    
-    itemName String @db.VarChar(255)
-    coreCount Int @db.TinyInt()
-    coreClock Decimal? @db.Decimal(3,1)
-    socket String? @db.VarChar(255)
-
-    store String @db.VarChar(255)
-    link String @db.VarChar(255)
-    price Decimal @db.Decimal(10,2)
-    image String? @db.VarChar(255)
+    id         String   @id @default(cuid())
+    itemName   String
+    coreCount  Int
+    coreClock  Decimal?
+    socket     String?
+    store      String
+    link       String
+    price      Decimal
+    image      String?
 }
 
 model cpuCooler {
-    id  String   @id @default(cuid())
-    
-    itemName String @db.VarChar(255)
-    size String? @db.VarChar(255)
-
-    store String @db.VarChar(255)
-    link String @db.VarChar(255)
-    price Decimal @db.Decimal(10,2)
-    image String? @db.VarChar(255)
+    id         String   @id @default(cuid())
+    itemName   String
+    size       String?
+    store      String
+    link       String
+    price      Decimal
+    image      String?
 }
 
 model motherBoard {
-    id  String   @id @default(cuid())
-
-    itemName String @db.VarChar(255)
-    socket String? @db.VarChar(255)
-    formFactor String? @db.VarChar(255)
-    memorySlots Int? @db.TinyInt()
-    memoryMax Int? @db.SmallInt()
-
-    store String @db.VarChar(255)
-    link String @db.VarChar(255)
-    price Decimal @db.Decimal(10,2)
-    image String? @db.VarChar(255)
+    id            String   @id @default(cuid())
+    itemName      String
+    socket        String?
+    formFactor    String?
+    memorySlots   Int?
+    memoryMax     Int?
+    store         String
+    link          String
+    price         Decimal
+    image         String?
 }
 
 model memory {
-    id  String   @id @default(cuid())
-
-    itemName String @db.VarChar(255)
-    speed String? @db.VarChar(255)
-    modules String? @db.VarChar(255)
-
-    store String @db.VarChar(255)
-    link String @db.VarChar(255)
-    price Decimal @db.Decimal(10,2)
-    image String? @db.VarChar(255)
+    id         String   @id @default(cuid())
+    itemName   String
+    speed      String?
+    modules    String?
+    store      String
+    link       String
+    price      Decimal
+    image      String?
 }
 
 model storage {
-    id String @id @default(cuid())
-
-    itemName String @db.VarChar(255)
-    capacity Int @db.SmallInt()
-    type String @db.VarChar(255)
-    formFactor String? @db.VarChar(255)
-    interface String? @db.VarChar(255)
-
-    store String @db.VarChar(255)
-    link String @db.VarChar(255)
-    price Decimal @db.Decimal(10,2)
-    image String? @db.VarChar(255)
+    id          String   @id @default(cuid())
+    itemName    String
+    capacity    Int
+    type        String
+    formFactor  String?
+    interface   String?
+    store       String
+    link        String
+    price       Decimal
+    image       String?
 }
 
 model towerCase {
-    id String @id @default(cuid())
-
-    itemName String @db.VarChar(255)
-    type String? @db.VarChar(255)
-    color String? @db.VarChar(255)
-
-    store String @db.VarChar(255)
-    link String @db.VarChar(255)
-    price Decimal @db.Decimal(10,2)
-    image String? @db.VarChar(255)
+    id         String   @id @default(cuid())
+    itemName   String
+    type       String?
+    color      String?
+    store      String
+    link       String
+    price      Decimal
+    image      String?
 }
 
 model psu {
-    id String @id @default(cuid())
-
-    itemName String @db.VarChar(255)
-    type String? @db.VarChar(255)
-    wattage Int @db.SmallInt()
-    color String? @db.VarChar(255)
-
-    store String @db.VarChar(255)
-    link String @db.VarChar(255)
-    image String? @db.VarChar(255)
-    price Decimal @db.Decimal(10,2)
+    id         String   @id @default(cuid())
+    itemName   String
+    type       String?
+    wattage    Int
+    color      String?
+    store      String
+    link       String
+    image      String?
+    price      Decimal
 }
 
 model monitor {
-    id String @id @default(cuid())
-    itemName String @db.VarChar(255)
-
-    size Decimal @db.Decimal(10,1)
-    resolution String @db.VarChar(255)
-    refreshRate Int @db.SmallInt()
-    responseTime Decimal? @db.Decimal(10,3)
-    panelType String? @db.VarChar(255)
-    aspectRatio String? @db.VarChar(255)
-
-    store String @db.VarChar(255)
-    link String @db.VarChar(255)
-    price Decimal @db.Decimal(10,2)
-    image String? @db.VarChar(255)
+    id            String   @id @default(cuid())
+    itemName      String
+    size          Decimal
+    resolution    String
+    refreshRate   Int
+    responseTime  Decimal?
+    panelType     String?
+    aspectRatio   String?
+    store         String
+    link          String
+    price         Decimal
+    image         String?
 }
