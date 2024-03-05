@@ -10,9 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@libsql/client": "^0.4.3",
-    "@prisma/adapter-libsql": "^5.9.1",
-    "@prisma/client": "^5.9.1",
+    "@prisma/client": "^4.14.0",
     "@t3-oss/env-nextjs": "^0.3.1",
     "@tanstack/react-query": "^4.29.7",
     "@trpc/client": "^10.26.0",
@@ -40,7 +38,7 @@
     "postcss": "^8.4.21",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
-    "prisma": "^5.9.1",
+    "prisma": "^4.14.0",
     "tailwindcss": "^3.3.0",
     "typescript": "^5.0.4"
   },
